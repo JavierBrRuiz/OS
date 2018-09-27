@@ -104,3 +104,14 @@ void strings (){
     printf("\t\tc:  %p  \"%s\"\n", c, c); 
     printf("\t\t&c:  %p  \n", &c); 
 }
+
+
+
+/*
+6: Yes the Only read memory positions are near to functions memory positions
+
+7: Yes it is near
+
+8: The only parameter used in the program is n in 
+factorial(int n)
+*/
