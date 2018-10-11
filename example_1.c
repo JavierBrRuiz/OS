@@ -108,10 +108,42 @@ void strings (){
 
 
 /*
-6: Yes the Only read memory positions are near to functions memory positions
+6: Yes the pointers memory positions are near to functions memory positions
 
 7: Yes it is near
 
 8: The only parameter used in the program is n in 
 factorial(int n)
+9:Yes in function strings () a and c wich are pointers are 
+equalized so they point to the same mem position
+
+10: Because it is a recursive function and the result wont be 
+solved till the recursion arrives to its base case, till then
+it needs to store the recursive calls variables in different 
+memory positions so then it can be resolved
+
+11: No it doesnt change. It means that factorial function is stored in somewhere
+in memory and anytime it is called, even recursively, it goes 
+to that memory position where it is stored.
+
+12: No it is not in the same memory zone since c is a pointer
+and a & b are arrays
+
+13: The memory blocks are in a different zone that other 
+elements of the program, surely in the heap 
+since is working with dynamic memory
+
+14: p + 1 add 4 bytes since p is an int pointer (4 bytes), 
+while q is a char pointer(1 byte) so p + 1 so 
+
+15: When *r is printed with %c it prints the ascii value of its %d value wich is
+72, then *r itself contains 72 but when printed with %c shows 
+the ascii value 'H'
+
+16:It is possible because each proccess has its own memory 
+translation table which may content same adrresses but 
+physically they are different
 */
+
+
+
