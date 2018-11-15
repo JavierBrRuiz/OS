@@ -87,6 +87,25 @@ void handle_page_fault (ssystem * S, unsigned virtual_addr)
 
     // TODO: Type in the code that simulates the Operating
     //       System's response to a page fault trap
+    S->numpagefaults++;
+    page = virtual_addr / S->pgsz;
+
+    if (S->detailed) printf("@ PAGE FAULT in P%d!\n", page);
+
+    if (S->listfree != -1){
+       last = S->listfree;
+       frame = S->frt[last].next;
+
+       if (frame == last) S->listfree = -1;
+       else S->frt[last].next = S->frt[frame].next;
+
+       occupy_free_frame (S, frame, page);
+    }
+    else{
+         victim = choose_page_to_be_replace (S);
+
+         replace_page (S, victim, page);
+    }
 }
 
 static unsigned myrandom (unsigned from,       // <<--- random
