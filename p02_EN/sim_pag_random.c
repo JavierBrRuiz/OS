@@ -47,8 +47,8 @@ unsigned sim_mmu (ssystem * S, unsigned virtual_addr, char op)
 
     // TODO: Type in the code that simulates the MMU's (hardware)
     //       behaviour in response to a memory access operation
-    page = virtual_addr / S->pgsz;
-    offset = virtual_addr % S->pgsz;
+    page = virtual_addr / S->pagsz;
+    offset = virtual_addr % S->pagsz;
 
     if (page < 0 || page >= S-> numpags){
         S->numillegalrefs++;
@@ -59,11 +59,11 @@ unsigned sim_mmu (ssystem * S, unsigned virtual_addr, char op)
     }
 
     frame = S->pgt[page].frame;
-    physical_addr = frame * S->pags + offset;
+    physical_addr = frame * S->pagsz + offset;
 
     reference_page (S, page, op);
 
-    if (S->detailed) printf("\t%c %u==P%d(M%d)+%d\n", op, pysical_addr, page,
+    if (S->detailed) printf("\t%c %u==P%d(M%d)+%d\n", op, physical_addr, page,
     frame, offset); 
     return physical_addr;
 }
@@ -88,7 +88,7 @@ void handle_page_fault (ssystem * S, unsigned virtual_addr)
     // TODO: Type in the code that simulates the Operating
     //       System's response to a page fault trap
     S->numpagefaults++;
-    page = virtual_addr / S->pgsz;
+    page = virtual_addr / S->pagsz;
 
     if (S->detailed) printf("@ PAGE FAULT in P%d!\n", page);
 
@@ -102,7 +102,7 @@ void handle_page_fault (ssystem * S, unsigned virtual_addr)
        occupy_free_frame (S, frame, page);
     }
     else{
-         victim = choose_page_to_be_replace (S);
+         victim = choose_page_to_be_replaced (S);
 
          replace_page (S, victim, page);
     }
@@ -174,6 +174,11 @@ void occupy_free_frame (ssystem * S, int frame, int page)
     // TODO: Write the code that links the page with the frame and
     //       vice-versa, and wites the corresponding values in the
     //       state bits of the page (presence...)
+    S->pgt[page].frame = frame;
+    S->pgt[page].present = 1;
+    S->pgt[page].modified = 0;
+
+    S->frt[frame].page = page;
 }
 
 // Functions that show results
